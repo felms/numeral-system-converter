@@ -1,14 +1,33 @@
 package converter;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ArrayList<String> inputs = new ArrayList<>();
         
-        int sourceRadix = Integer.parseInt(scanner.nextLine());
-        String sourceNumber  = scanner.nextLine();
-        int targetRadix = Integer.parseInt(scanner.nextLine());
+        while (scanner.hasNext()) {
+            inputs.add(scanner.nextLine());
+        }
+
+        if (inputs.size() != 3) {
+            System.out.println("error");
+            return;
+        }
+        
+        String sRadix = inputs.get(0);
+        String sourceNumber  = inputs.get(1);
+        String tRadix = inputs.get(2);
+
+        if (!validRadix(sRadix) || !validRadix(tRadix)) {
+            System.out.println("error");
+            return;
+        }
+
+        int sourceRadix = Integer.parseInt(sRadix);
+        int targetRadix = Integer.parseInt(tRadix);
 
         String number = sourceNumber.contains(".") 
                         ? fractionalConverter(sourceRadix, sourceNumber, targetRadix)
@@ -108,6 +127,10 @@ public class Main {
         }
 
         return integerPart + "." + decimalValue;
+    }
+
+    public static boolean validRadix(String radix) {
+        return radix.matches("^([1-9]|[12][0-9]|3[0-6])$");
     }
     
 }
